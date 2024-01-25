@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulačka</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="inputField" placeholder="Zadejte vstup">
+        <br>
+        <button onclick="appendToInput('1')">1</button>
+        <button onclick="appendToInput('2')">2</button>
+        <button onclick="appendToInput('3')">3</button>
+        <button onclick="appendToInput('+')">+</button>
+        <br>
+        <button onclick="appendToInput('4')">4</button>
+        <button onclick="appendToInput('5')">5</button>
+        <button onclick="appendToInput('6')">6</button>
+        <button onclick="appendToInput('-')">-</button>
+        <br>
+        <button onclick="appendToInput('7')">7</button>
+        <button onclick="appendToInput('8')">8</button>
+        <button onclick="appendToInput('9')">9</button>
+        <button onclick="appendToInput('*')">*</button>
+        <br>
+        <button onclick="appendToInput('0')">0</button>
+        <button onclick="clearInput()">C</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendToInput('/')">/</button>
+        <br>
+        <button onclick="appendToInput('!')">x!</button>
+        <button onclick="appendToInput('fib')">fib</button>
+        <button onclick="appendToInput('cos')">cos</button>
+        <button onclick="appendToInput('sin')">sin</button>
+        <button onclick="appendToInput('log')">log</button>
+        <br>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function appendToInput(value) {
+            document.getElementById('inputField').value += value;
+        }
+
+        function clearInput() {
+            document.getElementById('inputField').value = '';
+        }
+
+        function calculate() {
+            var input = document.getElementById('inputField').value;
+
+            try {
+                var result = evaluateExpression(input);
+                document.getElementById('result').innerText = 'Výsledek: ' + result;
+            } catch (error) {
+                alert('Chybný vstup.');
+            }
+        }
+
+        function evaluateExpression(input) {
+            if (input.includes('!')) {
+                var number = parseInt(input);
+                return factorial(number);
+            } else if (input.includes('fib')) {
+                var n = parseInt(input.replace('fib', ''));
+                return fibonacci(n);
+            } else if (input.includes('cos')) {
+                var angle = parseFloat(input.replace('cos', ''));
+                return Math.cos(angle);
+            } else if (input.includes('sin')) {
+                var angle = parseFloat(input.replace('sin', ''));
+                return Math.sin(angle);
+            } else if (input.includes('log')) {
+                var num = parseFloat(input.replace('log', ''));
+                return Math.log(num);
+            } else {
+                return eval(input);
+            }
+        }
+
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            return n * factorial(n - 1);
+        }
+
+        function fibonacci(n) {
+            if (n <= 1) return n;
+            return fibonacci(n - 1) + fibonacci(n - 2);
+        }
+    </script>
+</body>
+</html>
